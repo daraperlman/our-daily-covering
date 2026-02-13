@@ -87,7 +87,7 @@ def login():
             
             st.session_state["user"] = username_input.title()
             st.success(f"Welcome, {st.session_state['user']} 🤍")
-            time.sleep(5) #1 second delay
+            time.sleep(3) #1 second delay
             st.session_state["logged_in"] = True
             st.rerun()
             
@@ -204,6 +204,7 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
+
 
 
 
