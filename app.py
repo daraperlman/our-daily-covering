@@ -64,10 +64,13 @@ def login():
     password = st.text_input("Password", type="password")
 
     if st.button("Enter"):
+        username = username_input.lower()
 
         if username in APP_USERS and APP_USERS[username] == password:
             st.session_state["logged_in"] = True
-            st.session_state["user"] = username
+            #store display version
+            st.session_state["user"] = username_input
+            st.success(f"Welcome, 🤍{username_input}🤍")
         else:
             st.error("Access denied.")
 
@@ -195,6 +198,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
