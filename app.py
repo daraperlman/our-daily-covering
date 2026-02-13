@@ -73,12 +73,14 @@ def login():
             st.session_state["logged_in"] = True
             #store display version
             st.session_state["user"] = username_input
+          
             
         else:
             st.error("Access denied.")
 
 if "logged_in" not in st.session_state:
     login()
+      st.success(f"Welcome, {username_input.title()} 🤍")
     st.stop()
 
 # =========================
@@ -86,7 +88,7 @@ if "logged_in" not in st.session_state:
 # =========================
 
 st.title("Our Daily Covering 🤍")
-st.success(f"Welcome, {username_input.title()} 🤍")
+
 
 st.subheader("How are you feeling today?")
 
@@ -202,6 +204,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
