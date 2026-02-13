@@ -188,7 +188,8 @@ if "selected_feeling" in st.session_state:
                     index=False
                 )
 
-                st.success("Added to Our Coverings 💌")
+                st.success("")
+
 
 
 
