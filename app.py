@@ -159,6 +159,7 @@ if "selected_feeling" in st.session_state:
                 # 💌 SAVE TO GOOGLE SHEETS
                 # =========================
                 sheet.append_row([
+                    st.session_state["user"],
                     str(datetime.now()),
                     feeling,
                     theme,
@@ -167,23 +168,7 @@ if "selected_feeling" in st.session_state:
                 st.success("Added to Our Coverings 💌")
                 
                 
-                
-                '''covering_entry = {
-                    "Date": datetime.now(),
-                    "User": st.session_state["user"],
-                    "Feeling": feeling,
-                    "Theme": theme,
-                    "Verse": verse_label,
-                    "Context": "Daily Covering"
-                }
-
-                pd.DataFrame([covering_entry]).to_csv(
-                    COVERINGS_FILE,
-                    mode="a",
-                    header=not os.path.exists(COVERINGS_FILE),
-                    index=False
-                )'''
-
+              
                 # =========================
                 # 🧠 SYSTEM LOG
                 # =========================
@@ -204,6 +189,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
