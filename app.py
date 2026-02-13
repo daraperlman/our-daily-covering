@@ -37,7 +37,10 @@ APP_USERS = {
     "dara": "covenant",
     "stacey": "psalms 91",
     "wendy": "amen",
-    "tameka": "favored"
+    "tameka": "favored",
+    "phil": "love",
+    "sara": "life", 
+    "nana": "favored"
 }
 
 
@@ -198,6 +201,7 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
+
 
 
 
