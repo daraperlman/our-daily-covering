@@ -3,6 +3,7 @@ import pandas as pd
 from rapidfuzz import process
 from datetime import datetime
 import os
+import time
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -83,10 +84,11 @@ def login():
         username = username_input.strip().lower()
 
         if username in APP_USERS and APP_USERS[username] == password:
-
-            st.session_state["logged_in"] = True
+            
             st.session_state["user"] = username_input.title()
             st.success(f"Welcome, {st.session_state['user']} 🤍")
+            time.sleep(1) #1 second delay
+            st.session_state["logged_in"] = True
             st.rerun()
             
 
@@ -202,6 +204,7 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
+
 
 
 
