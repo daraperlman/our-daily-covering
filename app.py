@@ -64,7 +64,25 @@ def login():
     username_input = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
-    if st.button("Enter"):
+    login_valid = False
+
+    if username_input and password:
+        username = username_input.strip().lower()
+        if username in APP_USERS and APP_USERS[username] == password:
+            login_valid = True
+            st.success("You're IN! ✝️")
+        else: 
+            st.error("ACCESS DENIED ⛔")
+
+    # show enter button only if valid
+    if login_valid:
+        if st.button("Enter"):
+            st.session_state["logged_in"] = True
+            st.session_state["user"] = username_input.title()
+
+            st.success(f"Welcome, [st.session_state['user']} 🤍")
+    
+    '''if st.button("Enter"):
         username = username_input.strip().lower()
         #st.write("You typed:", username_input)
         #st.write("You meant:", username)
@@ -81,7 +99,7 @@ def login():
 
 if "logged_in" not in st.session_state:
     login()
-    st.stop()
+    st.stop()'''
 
 # =========================
 # 🏠 APP HOME
@@ -189,6 +207,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("")
+
 
 
 
