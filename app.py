@@ -83,7 +83,7 @@ def login():
 
             st.session_state["logged_in"] = True
             st.session_state["user"] = username_input.title()
-
+            st.rerun()
             st.success(f"Welcome, {st.session_state['user']} 🤍")
 
         else:
@@ -198,6 +198,7 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
+
 
 
 
