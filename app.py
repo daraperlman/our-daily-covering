@@ -6,6 +6,11 @@ import os
 import gspread
 from google.oauth2.service_account import Credentials
 
+
+# =========================
+# 📊 GOOGLE SHEETS SETUP
+# =========================
+
 scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
@@ -18,7 +23,9 @@ creds = Credentials.from_service_account_info(
 
 client = gspread.authorize(creds)
 
-sheet = client.open_by_key("1ZMCkVm2fM4-tRFb5rQiqY9fC8m6GPXzl-6fYtW3xfOU").sheet1
+sheet = client.open_by_key(
+    "1ZMCkVm2fM4-tRFb5rQiqY9fC8m6GPXzl-6fYtW3xfOU"
+).sheet1
 
 
 # =========================
@@ -29,18 +36,20 @@ APP_USERS = {
     "aj": "covered",
     "dara": "covenant",
     "stacey": "psalms 91",
-    "wendy": "amen", 
+    "wendy": "amen",
     "tameka": "favored"
 }
 
+
 # =========================
-# 📂 DATA files
+# 📂 DATA FILES
 # =========================
 
 FEELINGS_FILE = "feelings.csv"
 VERSES_FILE = "verses.csv"
 COVERINGS_FILE = "coverings.csv"
 LOGS_FILE = "logs.csv"
+
 
 # =========================
 # 📊 LOAD DATA
@@ -49,6 +58,7 @@ LOGS_FILE = "logs.csv"
 feelings_df = pd.read_csv(FEELINGS_FILE)
 verses_df = pd.read_csv(VERSES_FILE)
 
+
 # =========================
 # 🔐 LOGIN SYSTEM
 # =========================
@@ -56,6 +66,7 @@ verses_df = pd.read_csv(VERSES_FILE)
 def login():
 
     st.title("Our Daily Covering 🤍")
+
     st.markdown(
         "A private space where you're reminded daily "
         "that you're covered — in faith, strength, and love."
@@ -64,24 +75,29 @@ def login():
     username_input = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
-    #normalize for matching
-    username = username_input.strip().lower()
+    if st.button("Enter"):
 
-    login_valid = False
+        username = username_input.strip().lower()
 
-    if username and password: 
-        
         if username in APP_USERS and APP_USERS[username] == password:
-            login_valid = True
-            st.success(f"Welcome, {username_input.title()} 🤍")         
+
+            st.session_state["logged_in"] = True
+            st.session_state["user"] = username_input.title()
+
+            st.success(f"Welcome, {st.session_state['user']} 🤍")
+
         else:
             st.error("ACCESS DENIED ⛔")
 
-#enter button only works if valid credentials
-    if login_valid and st.button("Enter"):
-        st.session_state["logged_in"] = True
-        st.session_state["user"] = username_input.title()
-        st.success("Welcome")
+
+# =========================
+# 🚪 LOGIN GATE (REQUIRED)
+# =========================
+
+if "logged_in" not in st.session_state:
+    login()
+    st.stop()
+
 
 # =========================
 # 🏠 APP HOME
@@ -89,13 +105,13 @@ def login():
 
 st.title("Our Daily Covering 🤍")
 
-
 st.subheader("How are you feeling today?")
 
 user_input = st.text_input(
     "Type how you feel…",
     placeholder="Overwhelmed, anxious, hopeful…"
 )
+
 
 # =========================
 # 🔎 FUZZY FEELING MATCH
@@ -122,6 +138,7 @@ if user_input:
         if st.button(f"{feeling_name} ({score}%)"):
             selected_feeling = feeling_name
             st.session_state["selected_feeling"] = feeling_name
+
 
 # =========================
 # 📖 VERSE ENGINE
@@ -155,9 +172,7 @@ if "selected_feeling" in st.session_state:
 
             if st.button(f"Add {verse_label}"):
 
-                # =========================
                 # 💌 SAVE TO GOOGLE SHEETS
-                # =========================
                 sheet.append_row([
                     st.session_state["user"],
                     str(datetime.now()),
@@ -165,14 +180,10 @@ if "selected_feeling" in st.session_state:
                     theme,
                     verse_label
                 ])
-                st.success("Added to Our Coverings 💌")
-                
-                
-              
-                # =========================
-                # 🧠 SYSTEM LOG
-                # =========================
 
+                st.success("Added to Our Coverings 💌")
+
+                # 🧠 SYSTEM LOG
                 log_entry = {
                     "Timestamp": datetime.now(),
                     "User": st.session_state["user"],
@@ -187,27 +198,6 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
-
-                st.success("")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
