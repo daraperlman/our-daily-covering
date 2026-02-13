@@ -86,9 +86,8 @@ def login():
 
             st.session_state["logged_in"] = True
             st.session_state["user"] = username_input.title()
-            st.success(f"Welcome, {st.session_state['user']} 🤍")
             st.rerun()
-            
+            st.success(f"Welcome, {st.session_state['user']} 🤍")
 
         else:
             st.error("ACCESS DENIED ⛔")
@@ -109,7 +108,7 @@ if "logged_in" not in st.session_state:
 
 st.title("Our Daily Covering 🤍")
 
-st.subheader("How are you feeling today?")
+st.subheader(f"How are you feeling today, st.session_state[user]}, ?")
 
 user_input = st.text_input(
     "Type how you feel…",
@@ -202,6 +201,7 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
+
 
 
 
