@@ -86,8 +86,9 @@ def login():
 
             st.session_state["logged_in"] = True
             st.session_state["user"] = username_input.title()
-            st.rerun()
             st.success(f"Welcome, {st.session_state['user']} 🤍")
+            st.rerun()
+            
 
         else:
             st.error("ACCESS DENIED ⛔")
@@ -201,6 +202,7 @@ if "selected_feeling" in st.session_state:
                     header=not os.path.exists(LOGS_FILE),
                     index=False
                 )
+
 
 
 
