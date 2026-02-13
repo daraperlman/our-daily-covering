@@ -73,7 +73,8 @@ def login():
             st.session_state["logged_in"] = True
             #store display version
             st.session_state["user"] = username_input
-            st.success(f"Welcome, {username_input.title()}! PRESS ENTER TO CONTINUE 🤍")
+            st.success(f"Welcome, {username_input.title()} 🤍")
+            st.write("PRESS ENTER TO CONTINUE")
         
         else:
             st.error("Access denied.")
@@ -203,6 +204,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
