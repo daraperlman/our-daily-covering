@@ -66,8 +66,8 @@ def login():
 
     if st.button("Enter"):
         username = username_input.strip().lower()
-        st.write("You typed:", username_input)
-        st.write("You meant:", username)
+        #st.write("You typed:", username_input)
+        #st.write("You meant:", username)
 
         if username in APP_USERS and APP_USERS[username] == password:
             st.session_state["logged_in"] = True
@@ -201,6 +201,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
