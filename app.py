@@ -80,7 +80,7 @@ def login():
             st.session_state["logged_in"] = True
             st.session_state["user"] = username_input.title()
 
-            st.success(f"Welcome, [st.session_state['user']} 🤍")
+            st.success(f"Welcome, [st.session_state["user"]} 🤍")
     
     '''if st.button("Enter"):
         username = username_input.strip().lower()
@@ -207,6 +207,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("")
+
 
 
 
