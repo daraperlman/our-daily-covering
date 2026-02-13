@@ -1,0 +1,171 @@
+import streamlit as st
+import pandas as pd
+from rapidfuzz import process
+from datetime import datetime
+import os
+
+# =========================
+# 🔐 AUTH CONFIG
+# =========================
+
+APP_USERS = {
+    "Aj": "covered",
+    "You": "covenant"
+}
+
+# =========================
+# 📂 DATA PATHS
+# =========================
+
+DATA_PATH = "data"
+
+FEELINGS_FILE = os.path.join(DATA_PATH, "feelings.csv")
+VERSES_FILE = os.path.join(DATA_PATH, "verses.csv")
+COVERINGS_FILE = os.path.join(DATA_PATH, "coverings.csv")
+LOGS_FILE = os.path.join(DATA_PATH, "logs.csv")
+
+# =========================
+# 📊 LOAD DATA
+# =========================
+
+feelings_df = pd.read_csv(FEELINGS_FILE)
+verses_df = pd.read_csv(VERSES_FILE)
+
+# =========================
+# 🔐 LOGIN SYSTEM
+# =========================
+
+def login():
+
+    st.title("Our Daily Covering 🤍")
+    st.markdown(
+        "A private space where you're reminded daily "
+        "that you're covered — in faith, strength, and love."
+    )
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Enter"):
+
+        if username in APP_USERS and APP_USERS[username] == password:
+            st.session_state["logged_in"] = True
+            st.session_state["user"] = username
+        else:
+            st.error("Access denied.")
+
+if "logged_in" not in st.session_state:
+    login()
+    st.stop()
+
+# =========================
+# 🏠 APP HOME
+# =========================
+
+st.title("Our Daily Covering 🤍")
+
+st.subheader("How are you feeling today?")
+
+user_input = st.text_input(
+    "Type how you feel…",
+    placeholder="Overwhelmed, anxious, hopeful…"
+)
+
+# =========================
+# 🔎 FUZZY FEELING MATCH
+# =========================
+
+if user_input:
+
+    feeling_choices = feelings_df["Feeling"].tolist()
+
+    matches = process.extract(
+        user_input,
+        feeling_choices,
+        limit=5
+    )
+
+    st.write("Closest feelings:")
+
+    selected_feeling = None
+
+    for match in matches:
+        feeling_name = match[0]
+        score = match[1]
+
+        if st.button(f"{feeling_name} ({score}%)"):
+            selected_feeling = feeling_name
+            st.session_state["selected_feeling"] = feeling_name
+
+# =========================
+# 📖 VERSE ENGINE
+# =========================
+
+if "selected_feeling" in st.session_state:
+
+    feeling = st.session_state["selected_feeling"]
+
+    theme = feelings_df.loc[
+        feelings_df["Feeling"] == feeling,
+        "Theme"
+    ].values[0]
+
+    st.subheader(f"Theme: {theme}")
+
+    verse_matches = verses_df[
+        verses_df["Theme"] == theme
+    ].head(5)
+
+    st.markdown("### Your Covering Options:")
+
+    for i, row in verse_matches.iterrows():
+
+        verse_label = f"{row['Book']} {row['Chapter']}:{row['Verse']}"
+
+        with st.container():
+
+            st.markdown(f"**{verse_label}**")
+            st.write(row["Text"])
+
+            if st.button(f"Add {verse_label}"):
+
+                # =========================
+                # 💌 SAVE TO OUR COVERINGS
+                # =========================
+
+                covering_entry = {
+                    "Date": datetime.now(),
+                    "User": st.session_state["user"],
+                    "Feeling": feeling,
+                    "Theme": theme,
+                    "Verse": verse_label,
+                    "Context": "Daily Covering"
+                }
+
+                pd.DataFrame([covering_entry]).to_csv(
+                    COVERINGS_FILE,
+                    mode="a",
+                    header=not os.path.exists(COVERINGS_FILE),
+                    index=False
+                )
+
+                # =========================
+                # 🧠 SYSTEM LOG
+                # =========================
+
+                log_entry = {
+                    "Timestamp": datetime.now(),
+                    "User": st.session_state["user"],
+                    "Input": user_input,
+                    "Matched_Feeling": feeling,
+                    "Selected_Verse": verse_label
+                }
+
+                pd.DataFrame([log_entry]).to_csv(
+                    LOGS_FILE,
+                    mode="a",
+                    header=not os.path.exists(LOGS_FILE),
+                    index=False
+                )
+
+                st.success("Added to Our Coverings 💌")
