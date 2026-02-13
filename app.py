@@ -26,10 +26,11 @@ sheet = client.open_by_key("1ZMCkVm2fM4-tRFb5rQiqY9fC8m6GPXzl-6fYtW3xfOU").sheet
 # =========================
 
 APP_USERS = {
-    "AJ": "covered",
-    "Dara": "covenant",
-    "Stacey": "psalms 91",
-    "Wendy": "amen"
+    "aj": "covered",
+    "dara": "covenant",
+    "stacey": "psalms 91",
+    "wendy": "amen", 
+    "tameka": "favored"
 }
 
 # =========================
@@ -64,7 +65,9 @@ def login():
     password = st.text_input("Password", type="password")
 
     if st.button("Enter"):
-        username = username_input.lower()
+        username = username_input.strip().lower()
+        st.write("You typed:", username_input)
+        st.write("You meant:", username)
 
         if username in APP_USERS and APP_USERS[username] == password:
             st.session_state["logged_in"] = True
@@ -198,6 +201,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
