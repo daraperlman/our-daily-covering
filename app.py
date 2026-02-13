@@ -14,15 +14,13 @@ APP_USERS = {
 }
 
 # =========================
-# 📂 DATA PATHS
+# 📂 DATA files
 # =========================
 
-DATA_PATH = "."
-
-FEELINGS_FILE = os.path.join(DATA_PATH, "feelings.csv")
-VERSES_FILE = os.path.join(DATA_PATH, "verses.csv")
-COVERINGS_FILE = os.path.join(DATA_PATH, "coverings.csv")
-LOGS_FILE = os.path.join(DATA_PATH, "logs.csv")
+FEELINGS_FILE = "feelings.csv"
+VERSES_FILE = "verses.csv"
+COVERINGS_FILE = "coverings.csv"
+LOGS_FILE = "logs.csv"
 
 # =========================
 # 📊 LOAD DATA
@@ -169,6 +167,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
