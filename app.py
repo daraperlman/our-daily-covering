@@ -3,14 +3,33 @@ import pandas as pd
 from rapidfuzz import process
 from datetime import datetime
 import os
+import gspread
+from google.oauth2.service_account import Credentials
+
+scope = [
+    "https://spreadsheets.google.com/feeds",
+    "https://www.googleapis.com/auth/drive"
+]
+
+creds = Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scope
+)
+
+client = gspread.authorize(creds)
+
+sheet = client.open_by_key("1ZMCkVm2fM4-tRFb5rQiqY9fC8m6GPXzl-6fYtW3xfOU").sheet1
+
 
 # =========================
 # 🔐 AUTH CONFIG
 # =========================
 
 APP_USERS = {
-    "Aj": "covered",
-    "You": "covenant"
+    "AJ": "covered",
+    "Dara": "covenant",
+    "Stacey": "psalms 91",
+    "Wendy": "amen"
 }
 
 # =========================
@@ -128,10 +147,19 @@ if "selected_feeling" in st.session_state:
             if st.button(f"Add {verse_label}"):
 
                 # =========================
-                # 💌 SAVE TO OUR COVERINGS
+                # 💌 SAVE TO GOOGLE SHEETS
                 # =========================
-
-                covering_entry = {
+                sheet.append_row([
+                    str(datetime.now()),
+                    feeling,
+                    theme,
+                    verse_label
+                ])
+                st.success("Added to Our Coverings 💌")
+                
+                
+                
+                '''covering_entry = {
                     "Date": datetime.now(),
                     "User": st.session_state["user"],
                     "Feeling": feeling,
@@ -145,7 +173,7 @@ if "selected_feeling" in st.session_state:
                     mode="a",
                     header=not os.path.exists(COVERINGS_FILE),
                     index=False
-                )
+                )'''
 
                 # =========================
                 # 🧠 SYSTEM LOG
@@ -167,6 +195,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
