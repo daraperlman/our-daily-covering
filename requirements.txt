@@ -1,3 +1,5 @@
 streamlit
 pandas
 rapidfuzz
+gspread
+google-auth
