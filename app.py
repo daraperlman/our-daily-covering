@@ -80,7 +80,7 @@ def login():
 
 if "logged_in" not in st.session_state:
     login()
-      st.success(f"Welcome, {username_input.title()} 🤍")
+    st.success(f"Welcome, {username_input.title()} 🤍")
     st.stop()
 
 # =========================
@@ -204,6 +204,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
