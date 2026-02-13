@@ -17,7 +17,7 @@ APP_USERS = {
 # 📂 DATA PATHS
 # =========================
 
-DATA_PATH = "data"
+DATA_PATH = "."
 
 FEELINGS_FILE = os.path.join(DATA_PATH, "feelings.csv")
 VERSES_FILE = os.path.join(DATA_PATH, "verses.csv")
@@ -169,5 +169,6 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
