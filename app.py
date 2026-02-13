@@ -81,6 +81,7 @@ def login():
     if login_valid and st.button("Enter"):
         st.session_state["logged_in"] = True
         st.session_state["user"] = username_input.title()
+        st.success("Welcome")
 
 # =========================
 # 🏠 APP HOME
@@ -188,6 +189,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("")
+
 
 
 
