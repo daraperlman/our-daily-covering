@@ -60,7 +60,7 @@ def login():
         "that you're covered — in faith, strength, and love."
     )
 
-    username = st.text_input("Username")
+    username_input = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Enter"):
@@ -70,7 +70,7 @@ def login():
             st.session_state["logged_in"] = True
             #store display version
             st.session_state["user"] = username_input
-            st.success(f"Welcome, 🤍{username_input}🤍")
+            st.success(f"Welcome, 🤍{username_input.title()}🤍")
         else:
             st.error("Access denied.")
 
@@ -198,6 +198,7 @@ if "selected_feeling" in st.session_state:
                 )
 
                 st.success("Added to Our Coverings 💌")
+
 
 
 
