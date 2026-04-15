@@ -41,7 +41,7 @@ APP_USERS = {
     "tameka": "favored",
     "phil": "love",
     "sara": "life", 
-    "nana": "favored"
+    "nana": "favored",
     "stacey": "covered"
 }
 
